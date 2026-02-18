@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths-ignore:
-      - 'preprocessing/TelcoCustomerChurn_raw_preprocessing/**'
+      - '**/data_clean.csv'
 
 permissions:
   contents: write
@@ -29,12 +29,16 @@ jobs:
 
     - name: Run Preprocessing Script
       run: |
+        # Robot akan mencoba menjalankan script di folder preprocessing
         python preprocessing/automate_Anis-Setiawati.py
 
     - name: Commit and Push Processed Data
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        
+        # Menambahkan file hasil proses ke git
         git add preprocessing/TelcoCustomerChurn_raw_preprocessing/data_clean.csv
-        git commit -m "Auto-update: Dataset clean baru berhasil dibuat" || echo "Tidak ada perubahan data"
+        
+        git commit -m "Auto-update: Dataset clean baru" || echo "No changes"
         git push
