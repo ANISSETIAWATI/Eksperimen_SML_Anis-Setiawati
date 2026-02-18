@@ -1,3 +1,8 @@
+import pandas as pd
+import numpy as np
+import os
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+
 def preprocess_data():
     folder_path = 'TelcoCustomerChurn_raw'
 
