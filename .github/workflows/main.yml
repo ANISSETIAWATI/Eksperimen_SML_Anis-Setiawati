@@ -1,0 +1,40 @@
+name: Data Preprocessing Automation
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'preprocessing/TelcoCustomerChurn_raw_preprocessing/**'
+
+permissions:
+  contents: write
+
+jobs:
+  preprocess-job:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Dependencies
+      run: |
+        pip install pandas numpy scikit-learn
+
+    - name: Run Preprocessing Script
+      run: |
+        python preprocessing/automate_Anis-Setiawati.py
+
+    - name: Commit and Push Processed Data
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add preprocessing/TelcoCustomerChurn_raw_preprocessing/data_clean.csv
+        git commit -m "Auto-update: Dataset clean baru berhasil dibuat" || echo "Tidak ada perubahan data"
+        git push
